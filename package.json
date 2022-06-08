@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "docker-dev": "podman run --rm -it -p 3000:3000 -v \"$(pwd):/app\" $(podman build -q -f Dockerfile.dev .)",
+    "docker-build": "podman build -t 6502-lessons .",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

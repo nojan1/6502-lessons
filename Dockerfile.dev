@@ -1,0 +1,15 @@
+FROM node:16-alpine 
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat make gcc libc-dev
+WORKDIR /app
+
+# Install VASM
+RUN cd /; \
+    wget http://phoenix.owl.de/tags/vasm.tar.gz; \
+    tar xf vasm.tar.gz; \
+    cd vasm;  \
+    make CPU=6502 SYNTAX=oldstyle; \
+    cp vasm6502_oldstyle /usr/bin/
+
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
