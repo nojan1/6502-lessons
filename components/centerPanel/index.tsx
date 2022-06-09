@@ -15,28 +15,35 @@ const PreExistingCodeContainer = styled.div`
     padding: ${(props) => props.theme.spacings.small};
     background-color: ${(props) => props.theme.colors.secondary};
     font-family: monospace;
-    margin: ${(props) => props.theme.spacings.small};
+    margin: ${(props) => props.theme.spacings.xsmall};
+    color: ${(props) => props.theme.colors.text};
   }
 `;
 
 const Toolbar = styled.div`
   text-align: right;
+  margin-bottom: ${(props) => props.theme.spacings.xsmall};
+  margin-right: ${(props) => props.theme.spacings.xsmall};
 `;
 
 export interface CenterPanelProps {
   lesson: ILesson;
+  onRunCode: () => void;
 }
 
-const CenterPanel: React.FunctionComponent<CenterPanelProps> = ({ lesson }) => {
+const CenterPanel: React.FunctionComponent<CenterPanelProps> = ({
+  lesson,
+  onRunCode,
+}) => {
   return (
     <CenterPanelContainer>
       <PreExistingCodeContainer>
         <pre>{lesson.fixedCode}</pre>
       </PreExistingCodeContainer>
       <Toolbar>
-        <Button>Assemble & Run</Button>
+        <Button onClick={onRunCode}>Assemble & Run</Button>
       </Toolbar>
-      <AssemblerEditor defaultCode={lesson.defaultCode} />
+      <AssemblerEditor />
     </CenterPanelContainer>
   );
 };

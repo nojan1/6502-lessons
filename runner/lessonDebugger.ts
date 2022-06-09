@@ -18,18 +18,36 @@ export class LessonDebugger extends Debugger {
     board.boot();
 
     let totalCycles = 0;
+    let completedChecks = this._lesson.checks.map(() => false);
+
     while (true) {
       const { cycles } = this.step(1);
       totalCycles += cycles;
 
       // Check for completion
+      this._lesson.checks.forEach((check, i) => {
+        if (completedChecks[i]) return;
+
+        if (check.validate(this)) completedChecks[i] = true;
+      });
+
+      if (!completedChecks.some((x) => !x)) {
+        return {
+          stage: RunStage.Run,
+          success: true,
+        };
+      }
 
       if (totalCycles > this._lesson.maxCycles) {
+        const nextStepIndex = completedChecks.findIndex((c) => !c);
+
         return {
           stage: RunStage.Run,
           success: false,
-          message: `Code run for ${totalCycles} without finishing, check your code and try again`,
-          hintText: `A maximum of ${this._lesson.maxCycles} is allowed`,
+          message: `Code run for ${totalCycles} cycles without finishing, check your code and try again`,
+          hintText:
+            this._lesson.checks[nextStepIndex]?.hint ??
+            `A maximum of ${this._lesson.maxCycles} cycles is allowed`,
         };
       }
     }

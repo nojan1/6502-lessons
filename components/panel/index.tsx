@@ -2,7 +2,11 @@ import React, { ReactElement } from "react";
 import styled from "styled-components";
 
 const PanelComponent = styled.div`
-  min-width: 400px;
+  flex-basis: 30%;
+  margin: ${(props) => props.theme.spacings.xsmall};
+  padding: ${(props) => props.theme.spacings.xsmall};
+  color: ${(props) => props.theme.colors.text};
+  background-color: ${(props) => props.theme.colors.secondary};
 `;
 
 export interface PanelProps {

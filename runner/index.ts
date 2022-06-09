@@ -9,7 +9,7 @@ export enum RunStage {
 
 export interface RunResult {
   stage: RunStage;
-  success: false;
+  success: boolean;
   message?: string;
   hintText?: string;
 }

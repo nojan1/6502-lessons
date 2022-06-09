@@ -2,7 +2,7 @@ import lesson1 from "./lesson1";
 
 const lessons = [lesson1];
 
-import Runner from "6502.ts/lib/test/VcsRunner";
+import { LessonDebugger } from "../runner/lessonDebugger";
 
 export interface ILesson {
   title: string;
@@ -11,12 +11,14 @@ export interface ILesson {
   defaultCode: string;
   maxCycles: number;
   checks: ICheck[];
+  failChecks?: ICheck[];
 }
 
 export interface ICheck {
   title: string;
   hint?: string;
-  validate: (runner: Runner) => boolean;
+  validate: (theDebugger: LessonDebugger) => boolean;
+  hidden?: boolean;
 }
 
 export default lessons;

@@ -7,6 +7,6 @@ export const assembleCode = (code: string): Promise<AssembledCode> =>
       code,
     }),
     headers: {
-      ContentType: "application/json",
+      "Content-Type": "application/json",
     },
   }).then((x) => x.json());
