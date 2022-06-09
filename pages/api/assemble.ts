@@ -7,7 +7,7 @@ import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
-type AssembledCode = {
+export type AssembledCode = {
   data?: number[];
   success: boolean;
   errorMessage: string;
