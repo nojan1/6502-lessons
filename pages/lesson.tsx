@@ -20,6 +20,28 @@ const LessonPageContainer = styled.div`
   box-sizing: border-box;
 `;
 
+const HintBox = styled.div`
+  border: 1px solid;
+  border-color: ${(props) => props.theme.colors.primary};
+  border-radius: 5px;
+  margin-top: ${(props) => props.theme.spacings.small};
+  padding: ${(props) => props.theme.spacings.xsmall};
+
+  h1,
+  p {
+    padding: 0;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 1.2em;
+  }
+
+  p {
+    font-style: italic;
+  }
+`;
+
 const LessonPage: React.FunctionComponent = () => {
   const [lastRunResult, setLastRunResult] = useState<RunResult>();
   const {
@@ -49,17 +71,21 @@ const LessonPage: React.FunctionComponent = () => {
           onClose={() => setApplicationState(ApplicationState.Editing)}
         >
           {lastRunResult?.message}
-          <i>{lastRunResult?.hintText}</i>
+
+          {lastRunResult?.hintText && (
+            <HintBox>
+              <h1>Hint:</h1>
+              <p>{lastRunResult?.hintText}</p>
+            </HintBox>
+          )}
         </Modal>
       )}
 
       {currentState === ApplicationState.Success && (
         <Modal title="Well done!">
           <p>You have passed this lesson!</p>
-          <p>
-            Click to move on
-            <Button onClick={nextLesson}>Goto next lesson</Button>
-          </p>
+          <p>Click to move on</p>
+          <Button onClick={nextLesson}>Goto next lesson</Button>
         </Modal>
       )}
 

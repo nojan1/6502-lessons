@@ -1,3 +1,4 @@
+import Markdown from "markdown-to-jsx";
 import React from "react";
 import { ILesson } from "../../lessons";
 import Panel from "../panel";
@@ -12,7 +13,7 @@ const InstructionPanel: React.FunctionComponent<InstructionPanelProps> = ({
   return (
     <Panel>
       <h1>{lesson.title}</h1>
-      <p>{lesson.description}</p>
+      <Markdown>{lesson.description}</Markdown>
     </Panel>
   );
 };

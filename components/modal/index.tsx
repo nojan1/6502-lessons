@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Button from "../button";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -19,7 +20,25 @@ const ModalContainer = styled.div`
   max-width: 600px;
   width: 90%;
   z-index: 11;
+  color: ${(props) => props.theme.colors.text};
+`;
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: ${(props) => props.theme.spacings.small};
+
+  h1 {
+    padding: 0;
+    margin: 0;
+  }
+`;
+
+const ModalContent = styled.div`
+  padding-left: ${(props) => props.theme.spacings.small};
+  padding-right: ${(props) => props.theme.spacings.small};
+  padding-bottom: ${(props) => props.theme.spacings.small};
 `;
 
 export interface ModalProps {
@@ -28,12 +47,19 @@ export interface ModalProps {
 }
 
 const Modal: React.FunctionComponent<ModalProps & React.PropsWithChildren> = ({
+  title,
   onClose,
   children,
 }) => {
   return (
     <Backdrop>
-      <ModalContainer>{children}</ModalContainer>
+      <ModalContainer>
+        <ModalHeader>
+          <h1>{title}</h1>
+          {onClose && <Button onClick={onClose}>Close (x)</Button>}
+        </ModalHeader>
+        <ModalContent>{children}</ModalContent>
+      </ModalContainer>
     </Backdrop>
   );
 };

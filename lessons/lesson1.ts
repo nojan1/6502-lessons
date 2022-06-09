@@ -1,22 +1,25 @@
 import { ILesson } from ".";
 
 const lesson1: ILesson = {
-  title: "Giving A a value",
+  title: "Assigning a value to register A",
   description: `The acumulator is one the most used register.
      
-     We will now learn how to assign it a value.`,
-  fixedCode: `
-; This code will always be here
-    ldx $FF
-    txs
+We will now learn how to assign it a value.
 
-    nop
-  `,
+The instruction for this is \`LDA\` or *Load A*`,
+  fixedCode: ``,
   defaultCode: `
-; Extend this code to give the A register a value of $AA
+; Extend this code to give the A register a value of $AA, remember to indent your code
 `,
   maxCycles: 10,
-  checks: [],
+  checks: [
+    {
+      title: "A == $AA",
+      hint: "Use the LDA command",
+      validate: (theDebugger) =>
+        theDebugger.getBoard().getCpu().state.a === 0xaa,
+    },
+  ],
 };
 
 export default lesson1;

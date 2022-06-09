@@ -2,6 +2,9 @@ import { assembleCode } from "../api/assemble";
 import { ILesson } from "../lessons";
 import { LessonDebugger } from "./lessonDebugger";
 
+const preamble = `  ldx $FF
+  txs`;
+
 export enum RunStage {
   Assemble,
   Run,
@@ -18,7 +21,11 @@ export const run = async (
   lesson: ILesson,
   code: string
 ): Promise<RunResult> => {
-  const assembledCode = await assembleCode(code);
+  const finalCode = `${preamble}
+${lesson.fixedCode}
+${code}`;
+
+  const assembledCode = await assembleCode(finalCode);
 
   if (!assembledCode.success || !assembledCode.data) {
     return {

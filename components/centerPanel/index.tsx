@@ -14,7 +14,7 @@ const PreExistingCodeContainer = styled.div`
   pre {
     padding: ${(props) => props.theme.spacings.small};
     background-color: ${(props) => props.theme.colors.secondary};
-    font-family: monospace;
+    font-family: "VT323", monospace;
     margin: ${(props) => props.theme.spacings.xsmall};
     color: ${(props) => props.theme.colors.text};
   }
@@ -37,9 +37,12 @@ const CenterPanel: React.FunctionComponent<CenterPanelProps> = ({
 }) => {
   return (
     <CenterPanelContainer>
-      <PreExistingCodeContainer>
-        <pre>{lesson.fixedCode}</pre>
-      </PreExistingCodeContainer>
+      {lesson.fixedCode && (
+        <PreExistingCodeContainer>
+          <h3>Fixed code</h3>
+          <pre>{lesson.fixedCode}</pre>
+        </PreExistingCodeContainer>
+      )}
       <Toolbar>
         <Button onClick={onRunCode}>Assemble & Run</Button>
       </Toolbar>
