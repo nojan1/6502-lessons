@@ -2,6 +2,7 @@ import Debugger from "6502.ts/lib/machine/Debugger";
 import { ILesson } from "../lessons";
 import { MyBoard } from "./board";
 import { RunResult, RunStage } from "./";
+import InstrumentedBus from "./instrumentedBus";
 
 export class LessonDebugger extends Debugger {
   constructor(private _lesson: ILesson, private _code: number[]) {
@@ -11,6 +12,8 @@ export class LessonDebugger extends Debugger {
   public async run(): Promise<RunResult> {
     const board = new MyBoard();
     this.attach(board);
+
+    const accessLog = (board.getBus() as InstrumentedBus).getLog();
 
     this.loadBlock(this._code, 0x0800);
     this.loadBlock([0x00, 0x80], 0xfffc);
@@ -28,7 +31,7 @@ export class LessonDebugger extends Debugger {
       this._lesson.checks.forEach((check, i) => {
         if (completedChecks[i]) return;
 
-        if (check.validate(this)) completedChecks[i] = true;
+        if (check.validate(this, accessLog)) completedChecks[i] = true;
       });
 
       if (!completedChecks.some((x) => !x)) {
@@ -38,12 +41,28 @@ export class LessonDebugger extends Debugger {
         };
       }
 
+      const triggeredFailChecks =
+        this._lesson.failChecks?.filter((c) => c.validate(this, accessLog)) ??
+        [];
+      if (triggeredFailChecks.length) {
+        return {
+          stage: RunStage.Run,
+          success: false,
+          completedChecks,
+          message: `Oops, the code doesn't behave as intended.`,
+          hintText: triggeredFailChecks[0].hint,
+        };
+      }
+
       if (totalCycles > this._lesson.maxCycles) {
-        const nextStepIndex = completedChecks.findIndex((c) => !c);
+        const nextStepIndex = completedChecks.findIndex(
+          (c, i) => !c && !this._lesson.checks[i].hidden
+        );
 
         return {
           stage: RunStage.Run,
           success: false,
+          completedChecks,
           message: `Code run for ${totalCycles} cycles without finishing, check your code and try again`,
           hintText:
             this._lesson.checks[nextStepIndex]?.hint ??

@@ -16,7 +16,7 @@ The instruction for this is \`LDA\` or *Load A*`,
     {
       title: "A == $AA",
       hint: "Use the LDA command",
-      validate: (theDebugger) =>
+      validate: (theDebugger, accessLog) =>
         theDebugger.getBoard().getCpu().state.a === 0xaa,
     },
   ],

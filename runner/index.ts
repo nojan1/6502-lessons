@@ -15,6 +15,7 @@ export interface RunResult {
   success: boolean;
   message?: string;
   hintText?: string;
+  completedChecks?: boolean[];
 }
 
 export const run = async (

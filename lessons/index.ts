@@ -3,6 +3,7 @@ import lesson1 from "./lesson1";
 const lessons = [lesson1];
 
 import { LessonDebugger } from "../runner/lessonDebugger";
+import AccessLog from "../runner/accessLog";
 
 export interface ILesson {
   title: string;
@@ -17,7 +18,7 @@ export interface ILesson {
 export interface ICheck {
   title: string;
   hint?: string;
-  validate: (theDebugger: LessonDebugger) => boolean;
+  validate: (theDebugger: LessonDebugger, accessLog: AccessLog) => boolean;
   hidden?: boolean;
 }
 
