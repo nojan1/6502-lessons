@@ -15,22 +15,23 @@ export class LessonDebugger extends Debugger {
 
     const accessLog = (board.getBus() as InstrumentedBus).getLog();
 
-    this.loadBlock(this._code, 0x0800);
+    this.loadBlock(this._code, 0x8000);
     this.loadBlock([0x00, 0x80], 0xfffc);
 
+    board.getCpu().reset();
     board.boot();
+    accessLog.clear();
 
     let totalCycles = 0;
     let completedChecks = this._lesson.checks.map(() => false);
 
     while (true) {
-      const { cycles } = this.step(1);
-      totalCycles += cycles;
+      const { cpuCycles } = this.step(1);
+      totalCycles += cpuCycles;
 
       // Check for completion
       this._lesson.checks.forEach((check, i) => {
         if (completedChecks[i]) return;
-
         if (check.validate(this, accessLog)) completedChecks[i] = true;
       });
 
