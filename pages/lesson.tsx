@@ -95,8 +95,8 @@ const LessonPage: React.FunctionComponent = () => {
         </Modal>
       )}
 
-      <InstructionPanel lesson={lesson1} />
-      <CenterPanel lesson={lesson1} onRunCode={onRunCode} />
+      <InstructionPanel lesson={getCurrentLesson()} />
+      <CenterPanel lesson={getCurrentLesson()} onRunCode={onRunCode} />
     </LessonPageContainer>
   );
 };

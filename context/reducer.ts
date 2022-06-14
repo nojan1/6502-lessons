@@ -19,7 +19,11 @@ export const mainReducer = (
           currentState: ApplicationState.AllLessonsCompleted,
         };
       } else {
-        return { ...prevState, currentLessonNumber: newLessonNumber };
+        return {
+          ...prevState,
+          currentLessonNumber: newLessonNumber,
+          currentState: ApplicationState.Editing,
+        };
       }
     case "setCode":
       if (prevState.currentLessonNumber < 0) return prevState;

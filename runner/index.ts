@@ -2,7 +2,8 @@ import { assembleCode } from "../api/assemble";
 import { ILesson } from "../lessons";
 import { LessonDebugger } from "./lessonDebugger";
 
-const preamble = `  ldx $FF
+const preamble = `   .org $8000
+  ldx $FF
   txs`;
 
 export enum RunStage {

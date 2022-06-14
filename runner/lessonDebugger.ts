@@ -1,4 +1,5 @@
 import Debugger from "6502.ts/lib/machine/Debugger";
+import Instruction from "6502.ts/lib/machine/cpu/Instruction";
 import { ILesson } from "../lessons";
 import { MyBoard } from "./board";
 import { RunResult, RunStage } from "./";
@@ -8,6 +9,7 @@ import AccessLog from "./accessLog";
 export interface CheckContext {
   theDebugger: LessonDebugger;
   accessLog: AccessLog;
+  instruction: Instruction;
 }
 
 export class LessonDebugger extends Debugger {
@@ -35,9 +37,16 @@ export class LessonDebugger extends Debugger {
       const { cpuCycles } = this.step(1);
       totalCycles += cpuCycles;
 
+      const lastInstructionPointer = this.getBoard()
+        .getCpu()
+        .getLastInstructionPointer();
+      const lastOpcode = this.getBoard().getBus().peek(lastInstructionPointer);
+      const instruction = Instruction.opcodes[lastOpcode];
+
       const CheckContext: CheckContext = {
         theDebugger: this,
         accessLog,
+        instruction,
       };
 
       // Check for completion

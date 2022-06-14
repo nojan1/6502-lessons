@@ -51,10 +51,7 @@ export const LessonContextProvider: React.FunctionComponent<
     state,
     dispatch,
     nextLesson: () => dispatch({ type: "nextLesson" }),
-    getCurrentLesson: () =>
-      state.currentLessonNumber < lessons.length
-        ? lessons[state.currentLessonNumber]
-        : undefined,
+    getCurrentLesson: () => lessons[state.currentLessonNumber],
     getCode: () => state.lessons[state.currentLessonNumber]?.code ?? "",
     setCode: (code: string) => dispatch({ type: "setCode", code }),
     setApplicationState: (state: ApplicationState) =>
@@ -70,7 +67,7 @@ interface ApplicationStateReturnType {
   state: ApplicationStore;
   dispatch: React.Dispatch<Action>;
   nextLesson: () => void;
-  getCurrentLesson: () => ILesson | undefined;
+  getCurrentLesson: () => ILesson;
   getCode: () => string;
   setCode: (code: string) => void;
   setApplicationState: (state: ApplicationState) => void;
