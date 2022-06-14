@@ -1,9 +1,9 @@
 import lesson1 from "./lesson1";
+import lesson2 from "./lda-direct";
 
-const lessons = [lesson1];
+const lessons = [lesson1, lesson2];
 
-import { LessonDebugger } from "../runner/lessonDebugger";
-import AccessLog from "../runner/accessLog";
+import { CheckContext } from "../runner/lessonDebugger";
 
 export interface ILesson {
   title: string;
@@ -18,7 +18,7 @@ export interface ILesson {
 export interface ICheck {
   title: string;
   hint?: string;
-  validate: (theDebugger: LessonDebugger, accessLog: AccessLog) => boolean;
+  validate: (context: CheckContext) => boolean;
   hidden?: boolean;
 }
 

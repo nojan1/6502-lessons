@@ -13,6 +13,14 @@ const GlobalStyles = createGlobalStyle`
     height: 100%;
     font-family: 'VT323', monospace;
   }
+
+  blockquote {
+    p {
+      border-left: 2px solid;
+      border-color: ${(props: any) => props.theme.colors.primary};
+      padding-left: ${(props: any) => props.theme.spacings.xsmall};
+    }
+  }
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {

@@ -3,6 +3,12 @@ import { ILesson } from "../lessons";
 import { MyBoard } from "./board";
 import { RunResult, RunStage } from "./";
 import InstrumentedBus from "./instrumentedBus";
+import AccessLog from "./accessLog";
+
+export interface CheckContext {
+  theDebugger: LessonDebugger;
+  accessLog: AccessLog;
+}
 
 export class LessonDebugger extends Debugger {
   constructor(private _lesson: ILesson, private _code: number[]) {
@@ -29,10 +35,15 @@ export class LessonDebugger extends Debugger {
       const { cpuCycles } = this.step(1);
       totalCycles += cpuCycles;
 
+      const CheckContext: CheckContext = {
+        theDebugger: this,
+        accessLog,
+      };
+
       // Check for completion
       this._lesson.checks.forEach((check, i) => {
         if (completedChecks[i]) return;
-        if (check.validate(this, accessLog)) completedChecks[i] = true;
+        if (check.validate(CheckContext)) completedChecks[i] = true;
       });
 
       if (!completedChecks.some((x) => !x)) {
@@ -43,8 +54,7 @@ export class LessonDebugger extends Debugger {
       }
 
       const triggeredFailChecks =
-        this._lesson.failChecks?.filter((c) => c.validate(this, accessLog)) ??
-        [];
+        this._lesson.failChecks?.filter((c) => c.validate(CheckContext)) ?? [];
       if (triggeredFailChecks.length) {
         return {
           stage: RunStage.Run,

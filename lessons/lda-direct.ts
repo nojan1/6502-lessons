@@ -1,7 +1,7 @@
 import { ILesson } from ".";
 
 const lesson: ILesson = {
-  title: "",
+  title: "LDA with direct addressing",
   description: ``,
   fixedCode: ``,
   defaultCode: `

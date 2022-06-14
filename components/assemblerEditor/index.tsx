@@ -11,16 +11,13 @@ const EditorContainer = styled.div`
 export interface AssemblerEditorProps {}
 
 const AssemblerEditor: React.FunctionComponent<AssemblerEditorProps> = () => {
-  const {
-    setCode,
-    state: { currentLessonNumber, lessons },
-  } = useApplicationState();
+  const { setCode, getCode } = useApplicationState();
 
   return (
     <EditorContainer>
       <Editor
         defaultLanguage="asm"
-        value={lessons[currentLessonNumber]?.code ?? ""}
+        value={getCode()}
         onChange={(value) => setCode(value ?? "")}
       />
     </EditorContainer>

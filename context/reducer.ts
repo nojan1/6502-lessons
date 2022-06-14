@@ -22,7 +22,7 @@ export const mainReducer = (
         return { ...prevState, currentLessonNumber: newLessonNumber };
       }
     case "setCode":
-      if (!prevState.currentLessonNumber) return prevState;
+      if (prevState.currentLessonNumber < 0) return prevState;
 
       return {
         ...prevState,
