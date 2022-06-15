@@ -5,6 +5,8 @@ const lesson: ILesson = {
   title: "LDA with direct addressing",
   description: `In this lesson we will look at the next addressing mode supported by LDA, direct addressing mode.
   
+The syntax is: \`LDA <memory address>\`
+
   > The assembler has a concept called labels. Think of these as placeholders for memory addresses, the main difference being that the assembler will calculate them for us and we don't have to care.
     In this example there exists one label called **memory_addr**. If a label is used in the code the assembler will replace this for the actual address.`,
   fixedCode: `; The below row is a label

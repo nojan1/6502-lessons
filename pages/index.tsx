@@ -5,6 +5,8 @@ import Button from "../components/button";
 const WelcomeBox = styled.div`
   background-color: ${(props) => props.theme.colors.secondary};
   padding: ${(props) => props.theme.spacings.large};
+  max-width: 50%;
+  margin: 10rem auto;
 `;
 
 const Home: NextPage = () => {

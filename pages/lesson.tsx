@@ -17,7 +17,20 @@ const LessonPageContainer = styled.div`
   background-color: ${(props) => props.theme.colors.background};
   width: 100vw;
   height: 100vh;
+  flex-direction: column;
   box-sizing: border-box;
+`;
+
+const PanelContainer = styled.div`
+  display: flex;
+  flex-grow: 1;
+`;
+
+const Footer = styled.div`
+  width: 100%;
+  background-color: ${(props) => props.theme.colors.secondary};
+  padding: ${(props) => props.theme.spacings.xsmall};
+  color: white;
 `;
 
 const HintBox = styled.div`
@@ -95,8 +108,17 @@ const LessonPage: React.FunctionComponent = () => {
         </Modal>
       )}
 
-      <InstructionPanel lesson={getCurrentLesson()} />
-      <CenterPanel lesson={getCurrentLesson()} onRunCode={onRunCode} />
+      <PanelContainer>
+        <InstructionPanel lesson={getCurrentLesson()} />
+        <CenterPanel lesson={getCurrentLesson()} onRunCode={onRunCode} />
+      </PanelContainer>
+      <Footer>
+        The excellent documentation on{" "}
+        <a href="https://www.masswerk.at/6502/6502_instruction_set.html">
+          https://www.masswerk.at/6502/6502_instruction_set.html
+        </a>{" "}
+        is very usefull
+      </Footer>
     </LessonPageContainer>
   );
 };
