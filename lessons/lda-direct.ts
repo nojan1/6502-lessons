@@ -17,6 +17,7 @@ memory_addr:
 
 `,
   maxCycles: 10,
+  jumpToUserCode: true,
   checks: [
     {
       title: "A == $AA",

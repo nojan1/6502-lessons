@@ -5,15 +5,23 @@ import { MyBoard } from "./board";
 import { RunResult, RunStage } from "./";
 import InstrumentedBus from "./instrumentedBus";
 import AccessLog from "./accessLog";
+import CpuInterface from "6502.ts/lib/machine/cpu/CpuInterface";
+import BusInterface from "6502.ts/lib/machine/bus/BusInterface";
 
 export interface CheckContext {
   theDebugger: LessonDebugger;
   accessLog: AccessLog;
   instruction: Instruction;
+  state: CpuInterface.State;
+  bus: BusInterface;
 }
 
 export class LessonDebugger extends Debugger {
-  constructor(private _lesson: ILesson, private _code: number[]) {
+  constructor(
+    private _lesson: ILesson,
+    private _code: number[],
+    private _symbols: Record<string, number>
+  ) {
     super();
   }
 
@@ -22,16 +30,30 @@ export class LessonDebugger extends Debugger {
     this.attach(board);
 
     const accessLog = (board.getBus() as InstrumentedBus).getLog();
+    const userCodeStart = this._symbols["user_code"];
 
     this.loadBlock(this._code, 0x8000);
-    this.loadBlock([0x00, 0x80], 0xfffc);
+
+    if (this._lesson.jumpToUserCode && userCodeStart) {
+      this.loadBlock(
+        [userCodeStart & 0xff, (userCodeStart >> 8) & 0xff],
+        0xfffc
+      );
+    } else {
+      this.loadBlock([0x00, 0x80], 0xfffc);
+    }
 
     board.getCpu().reset();
     board.boot();
-    accessLog.clear();
 
     let totalCycles = 0;
     let completedChecks = this._lesson.checks.map(() => false);
+
+    if (userCodeStart) {
+      while (this.getBoard().getCpu().state.p < userCodeStart) this.step(1);
+    }
+
+    accessLog.clear();
 
     while (true) {
       const { cpuCycles } = this.step(1);
@@ -47,6 +69,8 @@ export class LessonDebugger extends Debugger {
         theDebugger: this,
         accessLog,
         instruction,
+        bus: this.getBoard().getBus(),
+        state: this.getBoard().getCpu().state,
       };
 
       // Check for completion
@@ -65,6 +89,10 @@ export class LessonDebugger extends Debugger {
       const triggeredFailChecks =
         this._lesson.failChecks?.filter((c) => c.validate(CheckContext)) ?? [];
       if (triggeredFailChecks.length) {
+        console.log(
+          this.disassembleAt(userCodeStart ?? 0x8000, this._code.length)
+        );
+
         return {
           stage: RunStage.Run,
           success: false,
@@ -77,6 +105,10 @@ export class LessonDebugger extends Debugger {
       if (totalCycles > this._lesson.maxCycles) {
         const nextStepIndex = completedChecks.findIndex(
           (c, i) => !c && !this._lesson.checks[i].hidden
+        );
+
+        console.log(
+          this.disassembleAt(userCodeStart ?? 0x8000, this._code.length)
         );
 
         return {
