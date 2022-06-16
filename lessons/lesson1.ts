@@ -1,4 +1,5 @@
 import { ILesson } from ".";
+import { AddressingMode, Operation } from "../runner/types";
 
 const lesson1: ILesson = {
   title: "Assigning a value to register A",
@@ -10,7 +11,7 @@ The instruction (or mnemonic) for this is \`LDA\` or **L**oa**d** **A**
 For this first lesson we fill focus on the immediate address mode. In this mode the value is inlined right in the code and uses
 uses the *#* character as a prefix. 
 
-The format is \`LDA #<value>\`. Which could be read as \`A = <value>\` in more modern programming languages.
+The format is \`LDA #&lt;value&gt;\`. Which could be read as \`A = <value>\` in more modern programming languages.
 
 > When entering numeric values the prefix **$** is used to indicate a hexadecimal value (*$01AB*) and **%** is used to indicate a binary value (*%00001100*)`,
   fixedCode: ``,
@@ -22,8 +23,10 @@ The format is \`LDA #<value>\`. Which could be read as \`A = <value>\` in more m
     {
       title: "A == $AA",
       hint: "Use the LDA command in immediate mode (#)",
-      validate: ({ theDebugger }) =>
-        theDebugger.getBoard().getCpu().state.a === 0xaa,
+      validate: ({ state, operation, addressingMode }) =>
+        state.a === 0xaa &&
+        operation === Operation.lda &&
+        addressingMode === AddressingMode.immediate,
     },
   ],
 };

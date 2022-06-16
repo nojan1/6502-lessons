@@ -1,5 +1,5 @@
 import Debugger from "6502.ts/lib/machine/Debugger";
-import Instruction from "6502.ts/lib/machine/cpu/Instruction";
+import { Operation, AddressingMode } from "./types";
 import { ILesson } from "../lessons";
 import { MyBoard } from "./board";
 import { RunResult, RunStage } from "./";
@@ -7,11 +7,13 @@ import InstrumentedBus from "./instrumentedBus";
 import AccessLog from "./accessLog";
 import CpuInterface from "6502.ts/lib/machine/cpu/CpuInterface";
 import BusInterface from "6502.ts/lib/machine/bus/BusInterface";
+import Instruction from "6502.ts/lib/machine/cpu/Instruction";
 
 export interface CheckContext {
   theDebugger: LessonDebugger;
   accessLog: AccessLog;
-  instruction: Instruction;
+  operation: Operation;
+  addressingMode: AddressingMode;
   state: CpuInterface.State;
   bus: BusInterface;
 }
@@ -68,7 +70,8 @@ export class LessonDebugger extends Debugger {
       const CheckContext: CheckContext = {
         theDebugger: this,
         accessLog,
-        instruction,
+        operation: instruction.operation as unknown as Operation,
+        addressingMode: instruction.addressingMode as unknown as AddressingMode,
         bus: this.getBoard().getBus(),
         state: this.getBoard().getCpu().state,
       };

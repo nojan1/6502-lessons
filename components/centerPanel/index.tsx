@@ -11,12 +11,23 @@ const CenterPanelContainer = styled.div`
 `;
 
 const PreExistingCodeContainer = styled.div`
+  background-color: ${(props) => props.theme.colors.secondary};
+  margin: ${(props) => props.theme.spacings.xsmall};
+  color: ${(props) => props.theme.colors.text};
+
+  h3 {
+    margin: 0 ${(props) => props.theme.spacings.xsmall};
+    padding: 0;
+    display: block;
+    text-align: center;
+    border-bottom: 1px solid;
+    padding: ${(props) => props.theme.spacings.xsmall};
+  }
+
   pre {
-    padding: ${(props) => props.theme.spacings.small};
-    background-color: ${(props) => props.theme.colors.secondary};
-    font-family: "VT323", monospace;
     margin: ${(props) => props.theme.spacings.xsmall};
-    color: ${(props) => props.theme.colors.text};
+    padding: ${(props) => props.theme.spacings.xsmall};
+    font-family: "VT323", monospace;
   }
 `;
 

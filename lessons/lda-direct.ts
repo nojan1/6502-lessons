@@ -1,11 +1,12 @@
-import Instruction from "6502.ts/lib/machine/cpu/Instruction";
 import { ILesson } from ".";
+import { AddressingMode, Operation } from "../runner/types";
 
 const lesson: ILesson = {
   title: "LDA with direct addressing",
   description: `In this lesson we will look at the next addressing mode supported by LDA, direct addressing mode.
   
-The syntax is: \`LDA <memory address>\`
+The syntax is: 
+**LDA &lt;memory address&gt;**
 
   > The assembler has a concept called labels. Think of these as placeholders for memory addresses, the main difference being that the assembler will calculate them for us and we don't have to care.
     In this example there exists one label called **memory_addr**. If a label is used in the code the assembler will replace this for the actual address.`,
@@ -22,11 +23,10 @@ memory_addr:
     {
       title: "A == $AA",
       hint: "Use the LDA command in absolute mode, using the label memory_addr",
-      validate: ({ theDebugger, instruction }) =>
-        theDebugger.getBoard().getCpu().state.a === 0xaa,
-      // &&
-      // instruction.operation === Instruction.Operation.lda &&
-      // instruction.addressingMode === Instruction.AddressingMode.absolute,
+      validate: ({ theDebugger, operation, addressingMode, state }) =>
+        state.a === 0xaa &&
+        operation === Operation.lda &&
+        addressingMode === AddressingMode.absolute,
     },
   ],
 };
