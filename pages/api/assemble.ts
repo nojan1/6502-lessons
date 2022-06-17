@@ -17,7 +17,7 @@ export type AssembledCode = {
 const targetLine = "Symbols by value:";
 
 const getSymbols = (listing: string) => {
-  console.log(listing);
+  // console.log(listing);
   const lines = listing.split("\n");
   const symbols: Record<string, number> = {};
 

@@ -53,8 +53,6 @@ export const LessonContextProvider: React.FunctionComponent<
 
   const [state, dispatch] = useReducer(mainReducer, initialState);
 
-  console.log(lessons);
-
   const value: ApplicationStateReturnType = {
     state,
     dispatch,

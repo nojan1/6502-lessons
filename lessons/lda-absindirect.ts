@@ -21,7 +21,6 @@ pointer=$01
     ldy #0
   `,
   defaultCode: `; Use the absolute addressing mode of LDA to set A to the value $AA
-lessons/lda-direct.ts
 `,
   maxCycles: 50,
   jumpToUserCode: false,
@@ -32,7 +31,7 @@ lessons/lda-direct.ts
       validate: ({ theDebugger, operation, addressingMode, state }) =>
         state.a === 0xaa &&
         operation === Operation.lda &&
-        addressingMode === AddressingMode.indirect,
+        addressingMode === AddressingMode.indirectIndexedY,
     },
   ],
 };

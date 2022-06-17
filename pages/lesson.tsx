@@ -109,7 +109,10 @@ const LessonPage: React.FunctionComponent = () => {
       )}
 
       <PanelContainer>
-        <InstructionPanel lesson={getCurrentLesson()} />
+        <InstructionPanel
+          lesson={getCurrentLesson()}
+          runResult={lastRunResult}
+        />
         <CenterPanel lesson={getCurrentLesson()} onRunCode={onRunCode} />
       </PanelContainer>
       <Footer>

@@ -52,7 +52,7 @@ const Modal: React.FunctionComponent<ModalProps & React.PropsWithChildren> = ({
   children,
 }) => {
   return (
-    <Backdrop>
+    <Backdrop onClick={onClose ?? (() => {})}>
       <ModalContainer>
         <ModalHeader>
           <h1>{title}</h1>

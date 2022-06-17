@@ -1,8 +1,9 @@
 import lesson1 from "./lesson1";
 import lesson2 from "./lda-direct";
 import lesson3 from "./lda-absindirect";
+import lesson4 from "./index-registers";
 
-const lessons = [lesson1, lesson2, lesson3];
+const lessons = [lesson1, lesson2, lesson3, lesson4];
 
 import { CheckContext } from "../runner/lessonDebugger";
 

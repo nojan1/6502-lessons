@@ -23,6 +23,7 @@ const InstructionPanel: React.FunctionComponent<InstructionPanelProps> = ({
   lesson,
   runResult,
 }) => {
+  console.log(runResult);
   const visibleChecks = useMemo(
     () =>
       lesson.checks
