@@ -11,12 +11,12 @@ The instruction (or mnemonic) for this is \`LDA\` or **L**oa**d** **A**
 For this first lesson we fill focus on the immediate address mode. In this mode the value is inlined right in the code and uses
 uses the *#* character as a prefix. 
 
-The format is \`LDA #&lt;value&gt;\`. Which could be read as \`A = <value>\` in more modern programming languages.
+The format is \`LDA #<value>\`.    
+Which could be read as \`A = <value>\` in more modern programming languages.
 
 > When entering numeric values the prefix **$** is used to indicate a hexadecimal value (*$01AB*) and **%** is used to indicate a binary value (*%00001100*)`,
   fixedCode: ``,
-  defaultCode: `
-; Extend this code to give the A register a value of $AA, remember to indent your code
+  defaultCode: `; Extend this code to give the A register a value of $AA, remember to indent your code
 `,
   maxCycles: 20,
   checks: [

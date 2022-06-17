@@ -15,7 +15,6 @@ memory_addr:
     .db $AA ; This will put the actual value $AA into the compiled code
   `,
   defaultCode: `; Use the absolute addressing mode of LDA to set A to the value $AA
-
 `,
   maxCycles: 10,
   jumpToUserCode: true,

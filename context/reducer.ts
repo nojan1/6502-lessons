@@ -21,6 +21,13 @@ export const mainReducer = (
       } else {
         return {
           ...prevState,
+          lessons: {
+            ...prevState.lessons,
+            [newLessonNumber]: {
+              code: lessons[newLessonNumber]?.defaultCode ?? "",
+              passed: false,
+            },
+          },
           currentLessonNumber: newLessonNumber,
           currentState: ApplicationState.Editing,
         };

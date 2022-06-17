@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useMemo, useReducer } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useReducer,
+} from "react";
 import lessons, { ILesson } from "../lessons";
 import lesson1 from "../lessons/lesson1";
 import { loadState, SavedLessonProgress } from "./persistance";
@@ -47,12 +53,17 @@ export const LessonContextProvider: React.FunctionComponent<
 
   const [state, dispatch] = useReducer(mainReducer, initialState);
 
+  console.log(lessons);
+
   const value: ApplicationStateReturnType = {
     state,
     dispatch,
     nextLesson: () => dispatch({ type: "nextLesson" }),
     getCurrentLesson: () => lessons[state.currentLessonNumber],
-    getCode: () => state.lessons[state.currentLessonNumber]?.code ?? "",
+    getCode: useCallback(
+      () => state.lessons[state.currentLessonNumber]?.code ?? "",
+      [state]
+    ),
     setCode: (code: string) => dispatch({ type: "setCode", code }),
     setApplicationState: (state: ApplicationState) =>
       dispatch({ type: "setApplicationState", state }),

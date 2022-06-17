@@ -60,6 +60,7 @@ const AssemblerEditor: React.FunctionComponent<AssemblerEditorProps> = () => {
         options={{
           fontFamily: "VT323",
           fontSize: 20,
+          quickSuggestions: false,
           minimap: {
             enabled: false,
           },

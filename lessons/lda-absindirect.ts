@@ -11,15 +11,14 @@ The syntax for indirect mode is:
 
 > Ignore the reference to Y for now, we will get to that later
 `,
-  fixedCode: `pointer=$01
+  fixedCode: `final_target:
+    .db $AA 
+pointer=$01
     ldy #<final_target
     sty pointer
     ldy #>final_target
     sty pointer + 1
     ldy #0
-
-final_target:
-    .db $AA 
   `,
   defaultCode: `; Use the absolute addressing mode of LDA to set A to the value $AA
 lessons/lda-direct.ts
