@@ -55,11 +55,13 @@ const assembleCode = async (code: string): Promise<AssembledCode> => {
       success: true,
       errorMessage: stderr,
     };
-  } catch (err) {
+  } catch (err: any) {
+    const message = err.stderr ?? `${err}`;
+
     return {
       data: undefined,
       success: false,
-      errorMessage: `Error compiling! ${err}`,
+      errorMessage: `Error compiling! ${message}`,
     };
   } finally {
     // Best effort
